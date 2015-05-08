@@ -15,8 +15,9 @@ import (
 type ExchangeConfig interface {
 	ExchangeURL() string
 	MaxFetchSize() int
-	Domain() string // na
+	UserDomain() string // na
 	ExchangeVersion() string
+	LookAheadDays() int
 }
 
 type exchangeVersion interface {
@@ -100,9 +101,12 @@ func GetExchangeAppointments(user ExchangeUser, cal ExchangeCalendar) ([]Appoint
 
 func buildCalendarItemRequest(folderid string, changekey string) []byte {
 
-	// TODO, allow the look ahead time to be set in the config
+	days := exchangeConfig.LookAheadDays()
+	if days < 1 {
+		days = 14
+	}
 	startDate := time.Now().UTC().Format(time.RFC3339)
-	endDate := time.Now().UTC().AddDate(0, 0, 14).Format(time.RFC3339)
+	endDate := time.Now().UTC().AddDate(0, 0, days).Format(time.RFC3339)
 
 	data := struct {
 		StartDate    string
@@ -153,7 +157,7 @@ func postContents(contents []byte, user ExchangeUser) (string, error) {
 
 	req2.Header.Set("Host", user.Username+"@"+host)
 	req2.Header.Set("Content-Type", "text/xml")
-	req2.SetBasicAuth(exchangeConfig.Domain()+"/"+user.Username, user.Password)
+	req2.SetBasicAuth(exchangeConfig.UserDomain()+"/"+user.Username, user.Password)
 
 	// TODO, allow client to be injected by tests!
 	client := &http.Client{}

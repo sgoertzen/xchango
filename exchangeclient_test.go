@@ -17,8 +17,9 @@ type TestConfig struct {
 
 func (t TestConfig) MaxFetchSize() int       { return t.Maxsize }
 func (t TestConfig) ExchangeVersion() string { return t.MyExchangeVersion }
-func (t TestConfig) Domain() string          { return t.MyDomain }
+func (t TestConfig) UserDomain() string      { return t.MyDomain }
 func (t TestConfig) ExchangeURL() string     { return t.MyExchangeURL }
+func (t TestConfig) LookAheadDays() int      { return 7 }
 
 func TestSetConfig2006(t *testing.T) {
 	SetExchangeConfig(TestConfig{MyExchangeVersion: "2006", MyExchangeURL: "https://www.mysite.com/some/dir/here.html"})
