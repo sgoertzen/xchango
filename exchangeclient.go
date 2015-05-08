@@ -74,7 +74,7 @@ func GetExchangeCalendar(user *ExchangeUser) (*ExchangeCalendar, error) {
 	return &cal, nil
 }
 
-func GetExchangeAppointments(user *ExchangeUser, cal *ExchangeCalendar) ([]Appointment, error) {
+func GetExchangeAppointments(user *ExchangeUser, cal *ExchangeCalendar) (*[]Appointment, error) {
 	// This first call will just get ids for each appt
 	calRequest := buildCalendarItemRequest(cal.Folderid, cal.Changekey)
 	calResults, err := postContents(calRequest, user)
@@ -96,7 +96,7 @@ func GetExchangeAppointments(user *ExchangeUser, cal *ExchangeCalendar) ([]Appoi
 		return nil, err
 	}
 
-	return appointments, nil
+	return &appointments, nil
 }
 
 func buildCalendarItemRequest(folderid string, changekey string) []byte {
