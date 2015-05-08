@@ -1,0 +1,10 @@
+language: go
+go:
+ - tip
+
+install:
+  - go get -t ./...
+
+script:
+ - go build
+ - go test -v ./...                       # Run unit tests (verbose output)
