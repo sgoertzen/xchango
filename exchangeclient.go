@@ -15,7 +15,7 @@ import (
 type ExchangeConfig interface {
 	ExchangeURL() string
 	MaxFetchSize() int
-	UserDomain() string // na
+	UserDomain() string
 	ExchangeVersion() string
 	LookAheadDays() int
 }
