@@ -57,12 +57,12 @@ func SetExchangeConfig(config ExchangeConfig) {
 	host = u.Host
 }
 
-func GetExchangeCalendar(user ExchangeUser) (ExchangeCalendar, error) {
+func GetExchangeCalendar(user *ExchangeUser) (*ExchangeCalendar, error) {
 	soapReq := version.FolderRequest()
 	results, err := postContents([]byte(soapReq), user)
 
 	if err != nil {
-		return ExchangeCalendar{}, err
+		return &ExchangeCalendar{}, err
 	}
 
 	item := parseCalendarFolder(string(results))
@@ -71,10 +71,10 @@ func GetExchangeCalendar(user ExchangeUser) (ExchangeCalendar, error) {
 		Folderid:  item.Id,
 		Changekey: item.ChangeKey,
 	}
-	return cal, nil
+	return &cal, nil
 }
 
-func GetExchangeAppointments(user ExchangeUser, cal ExchangeCalendar) ([]Appointment, error) {
+func GetExchangeAppointments(user *ExchangeUser, cal *ExchangeCalendar) ([]Appointment, error) {
 	// This first call will just get ids for each appt
 	calRequest := buildCalendarItemRequest(cal.Folderid, cal.Changekey)
 	calResults, err := postContents(calRequest, user)
@@ -152,7 +152,7 @@ func buildCalendarDetailRequest(itemIds []Appointment) []byte {
 	return doc.Bytes()
 }
 
-func postContents(contents []byte, user ExchangeUser) (string, error) {
+func postContents(contents []byte, user *ExchangeUser) (string, error) {
 	req2, err := http.NewRequest("POST", exchangeConfig.ExchangeURL(), bytes.NewBuffer(contents))
 
 	req2.Header.Set("Host", user.Username+"@"+host)
