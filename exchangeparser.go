@@ -118,7 +118,8 @@ func (c CalendarItem) ToAppointment() Appointment {
 	if len(c.Start) > 0 {
 		t1, err := time.Parse(time.RFC3339, c.Start)
 		if err != nil {
-			log.Printf("Error while parsing time.  Time string is: ", c.Start, err)
+			log.Printf("Error while parsing time.  Start time string wass: %v", c.Start)
+			log.Println(err)
 		}
 		app.Start = t1
 	}
@@ -126,7 +127,8 @@ func (c CalendarItem) ToAppointment() Appointment {
 	if len(c.End) > 0 {
 		t1, err := time.Parse(time.RFC3339, c.End)
 		if err != nil {
-			log.Printf("Error while parsing time.  Time string is: ", c.End, err)
+			log.Printf("Error while parsing time.  End time string wass: %v", c.End)
+			log.Println(err)
 		}
 		app.End = t1
 	}

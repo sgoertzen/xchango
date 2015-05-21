@@ -124,12 +124,12 @@ func buildCalendarItemRequest(folderid string, changekey string) []byte {
 
 	t, err := template.New("cal").Parse(version.CalendarRequest())
 	if err != nil {
-		log.Printf("Error is", err)
+		log.Println("Error while parsing template for item request", err)
 	}
 	var doc bytes.Buffer
 	t.Execute(&doc, data)
 	if err != nil {
-		log.Printf("Error while building contents ", err)
+		log.Println("Error while building contents ", err)
 	}
 
 	return doc.Bytes()
@@ -145,7 +145,7 @@ func buildCalendarDetailRequest(itemIds []Appointment) []byte {
 
 	t, err := template.New("detail").Parse(version.CalendarDetailRequest())
 	if err != nil {
-		log.Printf("Error is", err)
+		log.Println("Error while parsing for detail request", err)
 	}
 	var doc bytes.Buffer
 	t.Execute(&doc, data)
