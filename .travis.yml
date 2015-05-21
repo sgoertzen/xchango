@@ -4,5 +4,6 @@ go:
 
 script:
  - go build
+ - go get golang.org/x/tools/cmd/vet
  - go vet
  - go test -v ./...                       # Run unit tests (verbose output)
