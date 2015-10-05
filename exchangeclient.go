@@ -65,6 +65,7 @@ func GetExchangeCalendar(user *ExchangeUser) (*ExchangeCalendar, error) {
 		return &ExchangeCalendar{}, err
 	}
 
+	log.Printf("Exchange server return results of: %s", results)
 	item := parseCalendarFolder(string(results))
 
 	cal := ExchangeCalendar{
